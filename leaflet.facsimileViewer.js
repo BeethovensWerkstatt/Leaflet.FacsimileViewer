@@ -358,7 +358,8 @@ L.FacsimileViewer = L.Class.extend ({
         dpi: -1,
         attribution: '',
         url: '' ,
-        overlays: []
+        overlays: [],
+        lang: 'en'
     },
     
     initialize: function(id) {
@@ -471,7 +472,14 @@ L.FacsimileViewer = L.Class.extend ({
         
         var measureGroup = this._measureGroup = L.layerGroup(measureMarkers);
         
-        map._layerControl.addOverlay(measureGroup, 'Taktzahlen einblenden');
+        var label = '';
+        if(lang = 'de')
+            label = 'Taktzahlen einblenden';
+        else if(lang = 'en')
+            label = 'Show Measure Numbers';
+        
+        
+        map._layerControl.addOverlay(measureGroup, label);
         measureGroup.addTo(map);
         
         map.on('overlayadd', function(e){
