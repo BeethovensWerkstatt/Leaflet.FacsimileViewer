@@ -473,9 +473,9 @@ L.FacsimileViewer = L.Class.extend ({
         var measureGroup = this._measureGroup = L.layerGroup(measureMarkers);
         
         var label = '';
-        if(lang = 'de')
+        if(options.lang = 'de')
             label = 'Taktzahlen einblenden';
-        else if(lang = 'en')
+        else if(options.lang = 'en')
             label = 'Show Measure Numbers';
         
         
@@ -537,6 +537,28 @@ L.FacsimileViewer = L.Class.extend ({
     	
     },
     
+    setLanguage: function(code) {
+        var de = 'de';
+        var en = 'en';
+        
+        if(code != de && code != en)
+            return false;
+        
+        var string = (code === 'de') ? 'Taktzahlen einblenden' : 'Show Measure Numbers';
+        
+        try {
+            var controlID = this._measureGroup._leaflet_id;
+            var controlObj = this._map._layerControl._layers[controlID];
+            
+            controlObj.name = string;
+            $('.leaflet-control-layers-overlays > label:first-child span').text(string);
+        } catch(error) {
+            //console.log(error);
+        };
+        
+        
+    },
+    
     addLayer: function(overlay) {
     
         var svgCode = overlay.code;
@@ -593,7 +615,8 @@ L.FacsimileViewer = L.Class.extend ({
             dpi: -1,
             attribution: '',
             fileURL: '' ,
-            overlays: []
+            overlays: [],
+            lang: 'en'
         };
     },
     
